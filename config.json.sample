@@ -1,0 +1,8 @@
+{
+	"TelegramKey": "KEY",
+	"Host": "127.0.0.1",
+	"DBName": "DATABASE",
+	"User": "USER",
+	"Password": "PASSWORD",
+	"SSLMode": "disable"
+}
