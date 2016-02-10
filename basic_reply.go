@@ -11,9 +11,8 @@ type BasicReply struct {
 func (br BasicReply) ReplyMessage() {
 	var text string
 
-	text = "Бот понимает следующие команды:\n"
-	text += "/last — 5 последних новостей\n"
-	text += "/last 1 — Последняя новость. Можно ввести любую цифру от 1 до 10, бот поймет."
+	text = "Бот не знает таких команд.\n"
+	text += "Наберите /help\n"
 
 	bot := GetBotInstance()
 

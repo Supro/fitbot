@@ -21,12 +21,15 @@ func (hf HandlerFactory) HandleMessage() {
 }
 
 func (hf HandlerFactory) CreateHandler() HandlerInterface {
-	lastNewsRegexp, _ := regexp.Compile("/last( (1|2|3|4|5|6|7|8|9|10))?$")
+	lastNewsRegexp, _ := regexp.Compile("^/last( (1|2|3|4|5|6|7|8|9|10))?$")
+	helpRegexp, _ := regexp.Compile("^/help$")
 
 	var handler HandlerInterface
 
 	if lastNewsRegexp.MatchString(hf.Message.Text) {
 		handler = LastNewsHandler{Strategy: LastNewsReply{Message: hf.Message}}
+	} else if helpRegexp.MatchString(hf.Message.Text) {
+		handler = HelpHandler{Strategy: HelpReply{Message: hf.Message}}
 	} else {
 		handler = BasicHandler{Strategy: BasicReply{Message: hf.Message}}
 	}
