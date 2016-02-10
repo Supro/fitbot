@@ -30,6 +30,7 @@ func GetConfigurationInstance() *configuration {
 		err := decoder.Decode(&cfg)
 
 		if err != nil {
+			log.Println("Config error")
 			log.Fatal(err)
 		}
 
