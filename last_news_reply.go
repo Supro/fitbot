@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/tucnak/telebot"
 	"log"
-	"strconv"
+	//"strconv"
+	"time"
 )
 
 type LastNewsReply struct {
@@ -16,7 +17,7 @@ func (lnr LastNewsReply) GetLastNews() []string {
 	db := GetDatabaseInstance()
 	cp := CountParser{MessageText: lnr.Message.Text}
 
-	rows, err := db.Connection.Query("SELECT id, slug FROM items WHERE type='news' ORDER BY id DESC LIMIT $1", cp.GetCount())
+	rows, err := db.Connection.Query("SELECT id, slug, created_at FROM publications WHERE type='news' AND state='approved' ORDER BY id DESC LIMIT $1", cp.GetCount())
 
 	if err != nil {
 		log.Println(err)
@@ -25,13 +26,14 @@ func (lnr LastNewsReply) GetLastNews() []string {
 	for rows.Next() {
 		var slug string
 		var id int
+		var created_at time.Time
 
-		err = rows.Scan(&id, &slug)
+		err = rows.Scan(&id, &slug, &created_at)
 		if err != nil {
 			log.Println(err)
 		}
 
-		url := "http://fireimp.ru/news/" + slug + "-" + strconv.Itoa(id+100)
+		url := "http://fireimp.ru/news/" + created_at.Format("2006/01/02/") + slug
 
 		lastNews = append(lastNews, url)
 	}
